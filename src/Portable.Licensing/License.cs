@@ -24,6 +24,7 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 using Portable.Licensing.Security.Cryptography;
+
 using System;
 using System.Globalization;
 using System.IO;
@@ -77,7 +78,7 @@ namespace Portable.Licensing
             {
                 return
                     (LicenseType)
-                    Enum.Parse(typeof (LicenseType), GetTag("Type") ?? LicenseType.Trial.ToString(), false);
+                    Enum.Parse(typeof(LicenseType), GetTag("Type") ?? LicenseType.Trial.ToString(), false);
             }
             set { if (!IsSigned) SetTag("Type", value.ToString()); }
         }
@@ -156,7 +157,7 @@ namespace Portable.Licensing
                 {
                     return null;
                 }
-                
+
                 return new LicenseAttributes(xmlElement, "Attribute");
             }
         }
@@ -307,7 +308,7 @@ namespace Portable.Licensing
         {
             xmlData.Save(stream);
         }
-        
+
         /// <summary>
         /// Serialize this <see cref="License"/> to a <see cref="TextWriter"/>.
         /// </summary>

@@ -4,11 +4,11 @@ using Org.BouncyCastle.Security;
 
 namespace Portable.Licensing.Security.Cryptography
 {
-    class BouncySigner : Signer
+    class BouncySigner : Signer, ISigner
     {
         private readonly string signatureAlgorithm = X9ObjectIdentifiers.ECDsaWithSha512.Id;
 
-        public override byte[] Sign(byte[] documentToSign, string privateKey, string passPhrase)
+        public byte[] Sign(byte[] documentToSign, string privateKey, string passPhrase)
         {
             var privKey = BouncyKeyFactory.FromEncryptedPrivateKeyString(privateKey, passPhrase);
 
@@ -19,7 +19,7 @@ namespace Portable.Licensing.Security.Cryptography
             return signature;
         }
 
-        public override bool VerifySignature(byte[] documentToSign, byte[] signature, string publicKey)
+        public bool VerifySignature(byte[] documentToSign, byte[] signature, string publicKey)
         {
             var pubKey = BouncyKeyFactory.FromPublicKeyString(publicKey);
 
