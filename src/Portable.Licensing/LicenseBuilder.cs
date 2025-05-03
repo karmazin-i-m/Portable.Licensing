@@ -25,6 +25,7 @@
 
 using System;
 using System.Collections.Generic;
+using Portable.Licensing.Security.Cryptography;
 
 namespace Portable.Licensing
 {
@@ -52,6 +53,12 @@ namespace Portable.Licensing
         public ILicenseBuilder WithUniqueIdentifier(Guid id)
         {
             license.Id = id;
+            return this;
+        }
+
+        public ILicenseBuilder WithCustomSignerFactory(Func<ISigner> customSignerFactory)
+        {
+            Signer.CreateSignerFactory = customSignerFactory;
             return this;
         }
 

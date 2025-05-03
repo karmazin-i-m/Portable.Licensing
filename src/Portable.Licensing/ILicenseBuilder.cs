@@ -25,6 +25,7 @@
 
 using System;
 using System.Collections.Generic;
+using Portable.Licensing.Security.Cryptography;
 
 namespace Portable.Licensing
 {
@@ -114,6 +115,8 @@ namespace Portable.Licensing
         /// <returns>The <see cref="ILicenseBuilder"/>.</returns>
         ILicenseBuilder WithAdditionalAttributes(Action<LicenseAttributes> configureAdditionalAttributes);
 
+
+        ILicenseBuilder WithCustomSignerFactory(Func<ISigner> customSignerFactory);
         /// <summary>
         /// Create and sign a new <see cref="License"/> with the specified
         /// private encryption key.
