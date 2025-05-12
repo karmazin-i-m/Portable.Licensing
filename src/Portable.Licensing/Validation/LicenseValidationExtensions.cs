@@ -1,4 +1,4 @@
-﻿﻿//
+﻿//
 // Copyright © 2012 - 2013 Nauck IT KG     http://www.nauck-it.de
 //
 // Author:
@@ -23,6 +23,7 @@
 // OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+using Portable.Licensing.Security.Cryptography;
 using System;
 using System.Linq;
 using System.Reflection;
@@ -104,6 +105,22 @@ namespace Portable.Licensing.Validation
 
             validator.Validate = predicate;
             validator.FailureResult = failure;
+
+            return validationChainBuilder;
+        }
+
+        public static IValidationChain WithCustomSignerFactory(this IStartValidationChain validationChain, Func<ISigner> customSignerFactory)
+        {
+            var validationChainBuilder = (validationChain as ValidationChainBuilder);
+            var validator = validationChainBuilder.StartValidatorChain();
+            Signer.CreateSignerFactory = customSignerFactory;
+            validator.Validate = license => true;
+
+            validator.FailureResult = new InvalidSignatureValidationFailure()
+            {
+                Message = "License signature validation error!",
+                HowToResolve = @"The license signature and data does not match. This usually happens when a license file is corrupted or has been altered."
+            };
 
             return validationChainBuilder;
         }
